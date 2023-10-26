@@ -1,27 +1,27 @@
-# React + TypeScript + Vite
+# Commands
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Project start
+`npm run dev` 
 
-Currently, two official plugins are available:
+### Examples tests
+`npm run test`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+### Домашнее задание:
+Нужно сделать рефакторинг приложения, так, что бы модули: `user`, `tasks`, `lib` - не имели прямых зависимостей.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Важный момент**: Транзитивных зависимостей, через 3 модуль быть тоже не должно. 
+Модули `user`, `tasks`, `lib` - должны быть листьями дерева зависимостей.
 
-- Configure the top-level `parserOptions` property like this:
+Для этого воспользуйтесь любым из представленных в `examples` способов Dependency Inversion.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Что бы выложить домашнее задание на проверку 
+- сделайте форк репозитория
+- выполните задание
+- сделайте PR в `main`
+- отправьте ссылку на ваш `PR` в специальное обсуждение для проверки домашних заданий
+
+
+### Где посмотреть решение учителья?
+- `git checkout teacher-solution`
