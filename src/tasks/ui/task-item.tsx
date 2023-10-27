@@ -1,4 +1,4 @@
-import { UserSelect } from "../../user/ui/user-select";
+import { FC } from 'react';
 
 export const TaskItem = ({
   title,
@@ -6,7 +6,8 @@ export const TaskItem = ({
   onDelete,
   onToggleDone,
   onChangeOwner,
-  ownerId,
+  UserSelectComponent,
+  ownerId
 }: {
   title: string;
   done: boolean;
@@ -14,6 +15,10 @@ export const TaskItem = ({
   onChangeOwner: (ownerId: string) => void;
   onToggleDone: () => void;
   onDelete: () => void;
+  UserSelectComponent: FC<{
+    userId?: string;
+    onChangeUserId: (value: string) => void;
+  }>
 }) => {
   return (
     <div style={{ display: "flex", gap: "10px", padding: "10px" }}>
@@ -22,7 +27,7 @@ export const TaskItem = ({
         done
       </label>
       <button onClick={() => onDelete()}>Delete task</button>
-      <UserSelect userId={ownerId} onChangeUserId={onChangeOwner} />
+      <UserSelectComponent userId={ownerId} onChangeUserId={onChangeOwner} />
       <div>{title}</div>
     </div>
   );

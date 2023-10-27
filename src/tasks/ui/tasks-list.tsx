@@ -1,10 +1,19 @@
 import { TaskItem } from "./task-item";
-import { useTasks } from "../model/use-tasks";
+import { useTasks, Storage } from "../model/use-tasks";
 import { CreateTaskForm } from "./create-task-from";
+import {FC} from 'react';
 
-export function TasksList() {
+type TasksListProps = {
+  storage: Storage;
+  UserSelectComponent: FC<{
+    userId?: string;
+    onChangeUserId: (value: string) => void;
+  }>
+}
+
+export function TasksList({storage, UserSelectComponent}: TasksListProps) {
   const { addTask, removeTask, tasks, toggleCheckTask, updateOwner } =
-    useTasks();
+    useTasks(storage);
 
   return (
     <div>
@@ -18,6 +27,7 @@ export function TasksList() {
           onToggleDone={() => toggleCheckTask(task.id)}
           onDelete={() => removeTask(task.id)}
           onChangeOwner={(ownerId) => updateOwner(task.id, ownerId)}
+          UserSelectComponent={UserSelectComponent}
         />
       ))}
     </div>
