@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { saveToStorage, getFromStorage } from "../../lib/storage";
 import { nanoid } from "nanoid";
 
 type Task = {
@@ -10,7 +9,10 @@ type Task = {
 };
 
 const STORAGE_KEY = "tasks";
-export function useTasks() {
+export function useTasks({ getFromStorage, saveToStorage }: 
+  { saveToStorage: (key: string, value: unknown) => void; 
+    getFromStorage: <T>(key: string, defaultValue: T) => T; 
+  }) {
   const [tasks, setTasks] = useState<Task[]>(() =>
     getFromStorage(STORAGE_KEY, [])
   );
@@ -42,7 +44,7 @@ export function useTasks() {
 
   useEffect(() => {
     saveToStorage(STORAGE_KEY, tasks);
-  }, [tasks]);
+  }, [saveToStorage, tasks]);
 
   return {
     tasks,
