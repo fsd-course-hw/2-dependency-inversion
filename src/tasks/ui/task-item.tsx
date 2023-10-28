@@ -1,12 +1,11 @@
-import { UserSelect } from "../../user/ui/user-select";
+import { ReactNode } from "react";
 
 export const TaskItem = ({
   title,
   done,
   onDelete,
   onToggleDone,
-  onChangeOwner,
-  ownerId,
+  selectComponent
 }: {
   title: string;
   done: boolean;
@@ -14,6 +13,7 @@ export const TaskItem = ({
   onChangeOwner: (ownerId: string) => void;
   onToggleDone: () => void;
   onDelete: () => void;
+  selectComponent: ReactNode
 }) => {
   return (
     <div style={{ display: "flex", gap: "10px", padding: "10px" }}>
@@ -22,7 +22,7 @@ export const TaskItem = ({
         done
       </label>
       <button onClick={() => onDelete()}>Delete task</button>
-      <UserSelect userId={ownerId} onChangeUserId={onChangeOwner} />
+      {selectComponent}
       <div>{title}</div>
     </div>
   );
