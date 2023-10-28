@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { saveToStorage, getFromStorage } from "../../lib/storage";
-import { nanoid } from "nanoid";
+import { useEffect, useState } from 'react';
+import { nanoid } from 'nanoid';
+import { useStrictContext } from '../../shared/hooks/useStrictContext';
+import { storageDepsContext } from '../../shared/providers/StorageProvider';
 
 type Task = {
   id: string;
@@ -9,11 +10,10 @@ type Task = {
   ownerId?: string;
 };
 
-const STORAGE_KEY = "tasks";
+const STORAGE_KEY = 'tasks';
 export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>(() =>
-    getFromStorage(STORAGE_KEY, [])
-  );
+  const { get, set } = useStrictContext(storageDepsContext);
+  const [tasks, setTasks] = useState<Task[]>(() => get(STORAGE_KEY, []));
 
   const addTask = (value: string) => {
     setTasks((tasks) => [
@@ -41,7 +41,8 @@ export function useTasks() {
   };
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEY, tasks);
+    set(STORAGE_KEY, tasks);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);
 
   return {
