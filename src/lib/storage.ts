@@ -6,7 +6,7 @@ export const saveToStorage = (key: string, value: unknown) => {
   }
 };
 
-export const getFromStorage = <T>(key: string, defaultValue: T) => {
+export const getFromStorage = <T>(key: string, defaultValue: T): T => {
   try {
     return JSON.parse(
       localStorage.getItem(key) ?? JSON.stringify(defaultValue)
