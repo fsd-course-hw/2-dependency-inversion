@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { saveToStorage, getFromStorage } from "../../lib/storage";
 import { nanoid } from "nanoid";
 
-type Task = {
+export type Task = {
   id: string;
   title: string;
   done: boolean;

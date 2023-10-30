@@ -1,25 +1,17 @@
-import { TaskItem } from "./task-item";
-import { useTasks } from "../model/use-tasks";
-import { CreateTaskForm } from "./create-task-from";
+import {ReactNode} from "react";
+import {Task} from "../model/use-tasks";
 
-export function TasksList() {
-  const { addTask, removeTask, tasks, toggleCheckTask, updateOwner } =
-    useTasks();
+type Props = {
+  tasks: Array<Task>
+  renderTask: (task: Task) => ReactNode
+  renderForm: ReactNode
+}
 
+export function TasksList({renderTask, renderForm, tasks}: Props) {
   return (
     <div>
-      <CreateTaskForm onCreate={addTask} />
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          done={task.done}
-          title={task.title}
-          ownerId={task.ownerId}
-          onToggleDone={() => toggleCheckTask(task.id)}
-          onDelete={() => removeTask(task.id)}
-          onChangeOwner={(ownerId) => updateOwner(task.id, ownerId)}
-        />
-      ))}
+      {renderForm}
+      {tasks.map(renderTask)}
     </div>
   );
 }
