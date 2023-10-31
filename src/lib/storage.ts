@@ -1,4 +1,6 @@
-export const saveToStorage = (key: string, value: unknown) => {
+import { TGetFromStorage, TSaveToStorage } from "../types";
+
+export const saveToStorage: TSaveToStorage = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
@@ -6,7 +8,7 @@ export const saveToStorage = (key: string, value: unknown) => {
   }
 };
 
-export const getFromStorage = <T>(key: string, defaultValue: T) => {
+export const getFromStorage: TGetFromStorage = (key, defaultValue) => {
   try {
     return JSON.parse(
       localStorage.getItem(key) ?? JSON.stringify(defaultValue)
