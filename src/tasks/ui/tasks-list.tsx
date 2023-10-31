@@ -1,11 +1,23 @@
+import { createElement, FC } from "react";
 import { TaskItem } from "./task-item";
-import { useTasks } from "../model/use-tasks";
+
 import { CreateTaskForm } from "./create-task-from";
+import { UserSelectProps, TGetFromStorage, TSaveToStorage } from "../../types";
+import { useTasks } from "../model/use-tasks";
 
-export function TasksList() {
-  const { addTask, removeTask, tasks, toggleCheckTask, updateOwner } =
-    useTasks();
-
+export function TasksList({
+  UserSelect,
+  saveToStorage,
+  getFromStorage,
+}: {
+  UserSelect: FC<UserSelectProps>;
+  saveToStorage: TSaveToStorage;
+  getFromStorage: TGetFromStorage;
+}) {
+  const { addTask, removeTask, tasks, toggleCheckTask, updateOwner } = useTasks(
+    saveToStorage,
+    getFromStorage
+  );
   return (
     <div>
       <CreateTaskForm onCreate={addTask} />
@@ -14,10 +26,12 @@ export function TasksList() {
           key={task.id}
           done={task.done}
           title={task.title}
-          ownerId={task.ownerId}
           onToggleDone={() => toggleCheckTask(task.id)}
           onDelete={() => removeTask(task.id)}
-          onChangeOwner={(ownerId) => updateOwner(task.id, ownerId)}
+          userSelect={createElement(UserSelect, {
+            userId: task.ownerId,
+            onChangeUserId: (ownerId: string) => updateOwner(task.id, ownerId),
+          })}
         />
       ))}
     </div>

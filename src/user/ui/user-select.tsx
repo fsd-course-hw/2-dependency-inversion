@@ -1,12 +1,7 @@
+import { UserSelectProps } from "../../types";
 import { useUsers } from "../model/use-users";
 
-export function UserSelect({
-  onChangeUserId,
-  userId,
-}: {
-  userId?: string;
-  onChangeUserId: (value: string) => void;
-}) {
+export function UserSelect({ onChangeUserId, userId }: UserSelectProps) {
   const users = useUsers();
 
   return (
