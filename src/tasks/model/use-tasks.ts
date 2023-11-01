@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { saveToStorage, getFromStorage } from "../../lib/storage";
 import { nanoid } from "nanoid";
+import { GetFromStorage, SaveToStorage } from "./types";
 
 type Task = {
   id: string;
@@ -10,9 +10,11 @@ type Task = {
 };
 
 const STORAGE_KEY = "tasks";
-export function useTasks() {
+const { getItem, setItem } = localStorage;
+
+export function useTasks(saveToStorage: SaveToStorage, getFromStorage: GetFromStorage) {
   const [tasks, setTasks] = useState<Task[]>(() =>
-    getFromStorage(STORAGE_KEY, [])
+    getFromStorage(STORAGE_KEY, [], getItem.bind(localStorage))
   );
 
   const addTask = (value: string) => {
@@ -41,8 +43,8 @@ export function useTasks() {
   };
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEY, tasks);
-  }, [tasks]);
+    saveToStorage(STORAGE_KEY, tasks, setItem.bind(localStorage));
+  }, [tasks, saveToStorage]);
 
   return {
     tasks,

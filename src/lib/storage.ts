@@ -1,15 +1,23 @@
-export const saveToStorage = (key: string, value: unknown) => {
+export const saveToStorage = (
+  key: string,
+  value: unknown,
+  setItem: Storage['setItem'],
+) => {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    console.error("can not save");
+    setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.error("can not save: " + e);
   }
 };
 
-export const getFromStorage = <T>(key: string, defaultValue: T) => {
+export const getFromStorage = <T>(
+  key: string,
+  defaultValue: T,
+  getItem: Storage['getItem']
+) => {
   try {
     return JSON.parse(
-      localStorage.getItem(key) ?? JSON.stringify(defaultValue)
+      getItem(key) ?? JSON.stringify(defaultValue)
     ) as T;
   } catch {
     return defaultValue;
