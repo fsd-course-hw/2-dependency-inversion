@@ -15,3 +15,15 @@ export const getFromStorage = <T>(key: string, defaultValue: T) => {
     return defaultValue;
   }
 };
+
+export class Storage<T> {
+  constructor(private readonly key: string) {}
+
+  public save(tasks: T[]) {
+    saveToStorage(this.key, tasks);
+  }
+
+  public get(): T[] {
+    return getFromStorage(this.key, []);
+  }
+}
