@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { saveToStorage, getFromStorage } from "../../lib/storage";
 import { nanoid } from "nanoid";
 
-type Task = {
+export type Task = {
   id: string;
   title: string;
   done: boolean;
   ownerId?: string;
 };
 
-const STORAGE_KEY = "tasks";
-export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>(() =>
-    getFromStorage(STORAGE_KEY, [])
-  );
+export type TasksStorage = {
+  get(): Task[];
+  save(tasks: Task[]): void;
+};
+
+export function useTasks(storage: TasksStorage) {
+  const [tasks, setTasks] = useState<Task[]>(() => storage.get());
 
   const addTask = (value: string) => {
     setTasks((tasks) => [
@@ -41,7 +42,7 @@ export function useTasks() {
   };
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEY, tasks);
+    storage.save(tasks);
   }, [tasks]);
 
   return {
