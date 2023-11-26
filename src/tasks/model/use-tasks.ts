@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { saveToStorage, getFromStorage } from "../../lib/storage";
 import { nanoid } from "nanoid";
+import {useStrictContext} from "../../lib/react";
+import {tasksDepsContext} from "../task-deps";
 
-type Task = {
+export type Task = {
   id: string;
   title: string;
   done: boolean;
   ownerId?: string;
 };
 
-const STORAGE_KEY = "tasks";
+const TASKS_STORAGE_KEY = "tasks";
 export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>(() =>
-    getFromStorage(STORAGE_KEY, [])
-  );
+  const { getFromStorage, saveToStorage } = useStrictContext(tasksDepsContext);
+  const [tasks, setTasks] = useState<Task[]>(() => getFromStorage(TASKS_STORAGE_KEY, []));
 
   const addTask = (value: string) => {
     setTasks((tasks) => [
@@ -28,21 +28,21 @@ export function useTasks() {
 
   const toggleCheckTask = (id: string) => {
     setTasks((tasks) =>
-      tasks.map((task) =>
-        task.id === id ? { ...task, done: !task.done } : task
-      )
+        tasks.map((task) =>
+            task.id === id ? { ...task, done: !task.done } : task,
+        ),
     );
   };
 
-  const updateOwner = (id: string, ownerId: string) => {
+  const updateOwner = (id: string, ownerId?: string) => {
     setTasks((tasks) =>
-      tasks.map((task) => (task.id === id ? { ...task, ownerId } : task))
+        tasks.map((task) => (task.id === id ? { ...task, ownerId } : task)),
     );
   };
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEY, tasks);
-  }, [tasks]);
+    saveToStorage(TASKS_STORAGE_KEY, tasks);
+  }, [tasks, saveToStorage]);
 
   return {
     tasks,
