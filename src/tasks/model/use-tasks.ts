@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { saveToStorage, getFromStorage } from "../../lib/storage";
-import { nanoid } from "nanoid";
+import { useEffect, useState } from 'react';
+import { nanoid } from 'nanoid';
 
 type Task = {
   id: string;
@@ -9,17 +8,11 @@ type Task = {
   ownerId?: string;
 };
 
-const STORAGE_KEY = "tasks";
-export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>(() =>
-    getFromStorage(STORAGE_KEY, [])
-  );
+export function useTasks({ getTasks, updateTasks }: { getTasks: () => Task[]; updateTasks: (tasks: Task[]) => void }) {
+  const [tasks, setTasks] = useState<Task[]>(getTasks);
 
   const addTask = (value: string) => {
-    setTasks((tasks) => [
-      { id: nanoid(), title: value, done: false },
-      ...tasks,
-    ]);
+    setTasks((tasks) => [{ id: nanoid(), title: value, done: false }, ...tasks]);
   };
 
   const removeTask = (id: string) => {
@@ -27,22 +20,16 @@ export function useTasks() {
   };
 
   const toggleCheckTask = (id: string) => {
-    setTasks((tasks) =>
-      tasks.map((task) =>
-        task.id === id ? { ...task, done: !task.done } : task
-      )
-    );
+    setTasks((tasks) => tasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task)));
   };
 
   const updateOwner = (id: string, ownerId: string) => {
-    setTasks((tasks) =>
-      tasks.map((task) => (task.id === id ? { ...task, ownerId } : task))
-    );
+    setTasks((tasks) => tasks.map((task) => (task.id === id ? { ...task, ownerId } : task)));
   };
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEY, tasks);
-  }, [tasks]);
+    updateTasks(tasks);
+  }, [updateTasks, tasks]);
 
   return {
     tasks,
