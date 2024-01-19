@@ -1,13 +1,11 @@
-import { User } from '../model/types';
-
 export function UserSelect({
   users,
   currentUserId,
   onChangeUser,
 }: {
-  users: User[];
+  users: { id: string; name: string }[];
   currentUserId?: string;
-  onChangeUser: (value: string) => void;
+  onChangeUser: (id: string) => void;
 }) {
   return (
     <label>

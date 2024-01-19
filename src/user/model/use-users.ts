@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { User } from './types';
+
+type User = {
+  id: string;
+  name: string;
+};
 
 export function useUsers(): User[] {
   return useState(() => [

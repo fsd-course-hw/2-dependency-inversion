@@ -1,9 +1,6 @@
-import { STORAGE_TASKS_KEY, getFromStorage, saveToStorage } from './lib/storage';
-import { useTasks } from './tasks/model/use-tasks';
-import { CreateTaskForm } from './tasks/ui/create-task-from';
-import { TasksList } from './tasks/ui/tasks-list';
-import { useUsers } from './user/model/use-users';
-import { UserSelect } from './user/ui/user-select';
+import { STORAGE_TASKS_KEY, getFromStorage, saveToStorage } from './lib';
+import { CreateTaskForm, TaskItem, useTasks } from './tasks';
+import { UserSelect, useUsers } from './user';
 
 export function App() {
   const { addTask, removeTask, tasks, toggleCheckTask, updateOwner } = useTasks({
@@ -15,20 +12,19 @@ export function App() {
   return (
     <div>
       <CreateTaskForm onCreate={addTask} />
-      <TasksList
-        tasks={tasks}
-        render={(task) => (
-          <div key={task.id} style={{ display: 'flex', gap: '10px', padding: '10px' }}>
-            <label>
-              <input type='checkbox' checked={task.done} onChange={() => toggleCheckTask(task.id)} />
-              done
-            </label>
-            <button onClick={() => removeTask(task.id)}>Delete task</button>
+      {tasks.map((task) => (
+        <TaskItem
+          key={task.id}
+          id={task.id}
+          done={task.done}
+          title={task.title}
+          toggleCheckTask={toggleCheckTask}
+          removeTask={removeTask}
+          slot={
             <UserSelect users={users} currentUserId={task.ownerId} onChangeUser={(id) => updateOwner(task.id, id)} />
-            <div>{task.title}</div>
-          </div>
-        )}
-      />
+          }
+        />
+      ))}
     </div>
   );
 }

@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
-import { Task } from './types';
+
+type Task = {
+  id: string;
+  title: string;
+  done: boolean;
+  ownerId?: string;
+};
 
 export function useTasks({ getTasks, updateTasks }: { getTasks: () => Task[]; updateTasks: (tasks: Task[]) => void }) {
   const [tasks, setTasks] = useState<Task[]>(getTasks);
