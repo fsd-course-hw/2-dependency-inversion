@@ -1,19 +1,18 @@
-import { useUsers } from "../model/use-users";
+import { User } from '../model/types';
 
 export function UserSelect({
-  onChangeUserId,
-  userId,
+  users,
+  currentUserId,
+  onChangeUser,
 }: {
-  userId?: string;
-  onChangeUserId: (value: string) => void;
+  users: User[];
+  currentUserId?: string;
+  onChangeUser: (value: string) => void;
 }) {
-  const users = useUsers();
-
   return (
     <label>
       owner:
-      <select value={userId} onChange={(e) => onChangeUserId(e.target.value)}>
-        <option></option>
+      <select value={currentUserId} onChange={(e) => onChangeUser(e.target.value)}>
         {users.map((user) => (
           <option value={user.id} key={user.id}>
             {user.name}
