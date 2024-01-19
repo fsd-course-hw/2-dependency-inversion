@@ -15,3 +15,5 @@ export const getFromStorage = <T>(key: string, defaultValue: T) => {
     return defaultValue;
   }
 };
+
+export const STORAGE_TASKS_KEY = 'tasks';
